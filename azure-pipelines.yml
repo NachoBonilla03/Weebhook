@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
@@ -27,3 +23,19 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         tags: |
           '$(Build.BuildId)'
+
+- stage: Deploy
+  displayName: Deploy to Kubernetes
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Kubernetes@1
+      displayName: kubectl apply
+      inputs:
+        command: apply
+        namespace: default
+        useConfigurationFile: true
+        configuration: '$(Build.SourcesDirectory)/k8s/deployment.yaml'
