@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: nachobonillaweebhook
+  name: nachobonillaweebhook
 spec:
-    type: LoadBalancer
-    ports:
-    - port: 8000 
-    selector:
-        app: nachobonillaweebhook
+  type: LoadBalancer
+  ports:
+  - port: 5000  # External port for communication
+    targetPort: 8080  # Port on which pods listen for traffic
+  selector:
+    app: nachobonillaweebhook
