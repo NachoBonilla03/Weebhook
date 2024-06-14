@@ -1,27 +1,49 @@
-def dibujar_cuadrado(tamano):
-    for i in range(tamano):
-        if i == 0 or i == tamano - 1:
-            print("*" * tamano)
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Define functions to draw shapes
+def draw_square(size):
+    output = ""
+    for i in range(size):
+        if i == 0 or i == size - 1:
+            output += "*" * size + "\n"
         else:
-            print("*" + " " * (tamano - 2) + "*")
+            output += "*" + " " * (size - 2) + "*" + "\n"
+    return output
 
-def dibujar_triangulo(tamano):
-    for i in range(tamano):
-        print(" " * (tamano - i - 1) + "*" * (2 * i + 1))
+def draw_triangle(size):
+    output = ""
+    for i in range(size):
+        output += " " * (size - i - 1) + "*" * (2 * i + 1) + "\n"
+    return output
 
-def dibujar_circulo(tamano):
-    for i in range(tamano):
-        for j in range(tamano):
-            if (i - tamano // 2) ** 2 + (j - tamano // 2) ** 2 <= (tamano // 2) ** 2:
-                print("*", end="")
+def draw_circle(size):
+    output = ""
+    for i in range(size):
+        for j in range(size):
+            if (i - size // 2) ** 2 + (j - size // 2) ** 2 <= (size // 2) ** 2:
+                output += "*"
             else:
-                print(" ", end="")
-        print()
+                output += " "
+        output += "\n"
+    return output
 
-# Dibujar figuras
-print("Cuadrado:")
-dibujar_cuadrado(5)
-print("\nTriángulo:")
-dibujar_triangulo(5)
-print("\nCírculo:")
-dibujar_circulo(10)
+# Define routes to handle shape drawing requests
+@app.route("/draw-square/<int:size>")
+def draw_square_api(size):
+    square_output = draw_square(size)
+    return jsonify({"square": square_output})
+
+@app.route("/draw-triangle/<int:size>")
+def draw_triangle_api(size):
+    triangle_output = draw_triangle(size)
+    return jsonify({"triangle": triangle_output})
+
+@app.route("/draw-circle/<int:size>")
+def draw_circle_api(size):
+    circle_output = draw_circle(size)
+    return jsonify({"circle": circle_output})
+
+if __name__ == "__main__":
+    app.run(debug=True)
