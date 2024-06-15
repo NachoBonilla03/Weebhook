@@ -45,13 +45,17 @@ def draw_circle_api(size):
     circle_output = draw_circle(size)
     return jsonify({"circle": circle_output})
 
+@app.route("/work-progress")
+def print_work_in_progress():
+    print("Trabajo en proceso...")  
+    return jsonify({"work_in_progress": "Trabajo en proceso..."})
 
 @app.route("/")
 def drawall():
     circle_output = draw_circle(5)
     triangle_output = draw_triangle(5)
     square_output = draw_square(5)
-    return jsonify({"circle": circle_output, "triangle": triangle_output,    "square": square_output,         "proximamente":"..."})
+    return jsonify({"circle": circle_output, "triangle": triangle_output, "square": square_output, "proximamente":"..."})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
