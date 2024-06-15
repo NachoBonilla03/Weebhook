@@ -47,7 +47,6 @@ def draw_circle_api(size):
 
 @app.route("/work-progress")
 def print_work_in_progress():
-    print("Trabajo en proceso...")  
     return jsonify({"work_in_progress": "Trabajo en proceso..."})
 
 @app.route("/")
