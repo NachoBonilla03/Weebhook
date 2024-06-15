@@ -45,9 +45,6 @@ def draw_circle_api(size):
     circle_output = draw_circle(size)
     return jsonify({"circle": circle_output})
 
-@app.route("/mensajeDefault")
-def draw_circle_api(size):
-    return jsonify({"Mensaje de pruebas de funcionamiento"})
 
 @app.route("/")
 def drawall():
